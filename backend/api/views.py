@@ -1,7 +1,9 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 from .models import Riddle, Comment
 from .serializers import RiddleSerializers, CommentSerializers
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 # Create your views here.
 class RiddleViewSet(ModelViewSet):
@@ -14,6 +16,7 @@ class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializers
 
 
+@login_required
 def like(request, pk):
     user = request.user
     comment = get_object_or_404(Comment, pk=pk)
@@ -24,8 +27,10 @@ def like(request, pk):
         comment.likes.remove(user)
     else:
         comment.likes.add(user)
-    return redirect('api:cmnt', comment.pk)
+    return JsonResponse ({'liked': 'click ok'})
 
+
+@login_required
 def dislike(request, pk):
     user = request.user
     comment = get_object_or_404(Comment, pk=pk)
@@ -36,4 +41,4 @@ def dislike(request, pk):
         comment.dislikes.remove(user)
     else:
         comment.dislikes.add(user)
-    return redirect('api:cmnt', comment.pk)
+    return JsonResponse ({'disliked': 'click ok'})
