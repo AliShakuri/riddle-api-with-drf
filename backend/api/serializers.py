@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework import serializers
 from .models import Riddle, Comment
 
@@ -12,7 +13,7 @@ class CommentSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = "__all__"
+        fields = ['id','user','post','text','likes','dislikes','jcreated','updated']
 
 
 class RiddleSerializers(serializers.ModelSerializer):
@@ -25,4 +26,4 @@ class RiddleSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Riddle
-        fields = ['id', 'title', 'text', 'publish', 'created', 'updated', 'comments']
+        fields = ['id', 'title', 'text', 'jpublish', 'created', 'updated', 'comments']
