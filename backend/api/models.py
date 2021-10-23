@@ -26,7 +26,7 @@ class Riddle(models.Model):
 
 
 class Comment(models.Model):
-    user     = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True, related_name='usernames', verbose_name='نام کاربر')
+    user     = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='usernames', verbose_name='نام کاربر')
     post     = models.ForeignKey(Riddle, on_delete=models.CASCADE, related_name='comments', verbose_name='دیدگاه')
     text     = models.TextField()
     likes    = models.ManyToManyField(get_user_model(), blank=True, related_name='likes', verbose_name='پسسندیدن')

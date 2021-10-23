@@ -4,16 +4,11 @@ from .models import Riddle, Comment
 
 
 class CommentSerializers(serializers.ModelSerializer):
-    def get_username(self, obj):
-        return {
-            "username": obj.user.username
-        }
-
-    user = serializers.SerializerMethodField("get_username")
+    username = serializers.CharField(source="user.username", read_only=True)
 
     class Meta:
         model = Comment
-        fields = ['id','user','post','text','likes','dislikes','jcreated','updated']
+        fields = ['id','user','username','post','text','likes','dislikes','jcreated','updated']
 
 
 class RiddleSerializers(serializers.ModelSerializer):

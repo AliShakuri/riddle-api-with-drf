@@ -4,6 +4,7 @@ from .models import Riddle, Comment
 from .serializers import RiddleSerializers, CommentSerializers
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 # Create your views here.
 class RiddleViewSet(ModelViewSet):
@@ -14,6 +15,7 @@ class RiddleViewSet(ModelViewSet):
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializers
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 @login_required
