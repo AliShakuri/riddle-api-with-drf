@@ -2,9 +2,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 from .models import Riddle, Comment
 from .serializers import RiddleSerializers, CommentSerializers
-from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 
 # Create your views here.
 class RiddleViewSet(ModelViewSet):
@@ -18,7 +19,9 @@ class CommentViewSet(ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
-@login_required
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication,])
+@permission_classes([IsAuthenticated])
 def like(request, pk):
     user = request.user
     comment = get_object_or_404(Comment, pk=pk)
@@ -32,7 +35,9 @@ def like(request, pk):
     return JsonResponse ({'liked': 'click ok'})
 
 
-@login_required
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication,])
+@permission_classes([IsAuthenticated])
 def dislike(request, pk):
     user = request.user
     comment = get_object_or_404(Comment, pk=pk)
