@@ -34,6 +34,13 @@ class Comment(models.Model):
     created  = models.DateTimeField(auto_now_add=True)
     updated  = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = 'دیدگاه'
+        verbose_name_plural = 'دیدگاه‌ها'
+
+    def __str__(self):
+        return f"{self.user.username}-{self.post.title}"
+
     def jcreated(self):
         return jalali_converter(self.created)
     jcreated.short_description = 'زمان ارسال'
